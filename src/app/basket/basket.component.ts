@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Purchase } from '../../shared/interfaces/purchase';
 import { BasketService } from 'src/shared/services/basket.service';
 import { SwitchPageService } from 'src/shared/services/switch-page.service';
 
@@ -16,13 +15,5 @@ export class BasketComponent {
 
   goToProducts(): void {
     this.switchPageService.currentPage$.next('products');
-  }
-
-  updatePurchase(purchase: Purchase) {
-    // this.purchaseService.updatePurchase(purchase);
-  }
-
-  deletePurchase(purchase: Purchase) {
-    this.basketService.deletePurchase(purchase);
   }
 }

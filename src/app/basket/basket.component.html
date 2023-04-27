@@ -14,8 +14,6 @@
   <app-basket-item
     *ngFor="let p of basketService.purchases; let i = index"
     [purchase]="p"
-    (update)="updatePurchase($event)"
-    (delete)="deletePurchase($event)"
   ></app-basket-item>
 
   <div class="footer">

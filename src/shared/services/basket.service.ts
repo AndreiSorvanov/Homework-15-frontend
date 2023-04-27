@@ -71,6 +71,15 @@ export class BasketService {
     this._save();
   }
 
+  updatePurchase(purchase: Purchase) {
+    const foundPurchase = this._purchases.filter(
+      (p: Purchase) => p.product.id === purchase.product.id,
+    )[0];
+    foundPurchase.count = purchase.count;
+    this.updateSummary();
+    this._save();
+  }
+
   deletePurchase(purchase: Purchase) {
     this._purchases = this._purchases.filter(
       (curPurchase: Purchase) => curPurchase.product.id !== purchase.product.id,

@@ -1,35 +1,4 @@
 <form class="form" [formGroup]="form" (submit)="submit()">
-  <!-- <div *tuiLet="items$ | async as items" class="tui-form__row">
-    <tui-combo-box
-      tuiTextfieldSize="m"
-      formControlName="title"
-      [strict]="false"
-      [valueContent]="content"
-      (searchChange)="onSearchChange($event)"
-    >
-      Название
-      <tui-data-list-wrapper
-        *tuiDataList
-        [items]="items"
-        [itemContent]="content"
-      ></tui-data-list-wrapper>
-    </tui-combo-box>
-    <tui-error
-      formControlName="title"
-      [error]="[] | tuiFieldError | async"
-    ></tui-error>
-  </div>
-
-  <div class="tui-form__row">
-    <tui-input tuiTextfieldSize="m" formControlName="price">
-      Стоимость
-    </tui-input>
-    <tui-error
-      formControlName="price"
-      [error]="[] | tuiFieldError | async"
-    ></tui-error>
-  </div> -->
-
   <div class="tui-form__row">
     <tui-select tuiTextfieldSize="m" formControlName="countryItem">
       Страна*
@@ -85,11 +54,7 @@
       size="s"
       type="submit"
     >
-      {{ isEdit ? 'Сохранить' : 'Добавить' }}
+      Заказать
     </button>
   </div>
 </form>
-
-<ng-template #content let-data>
-  {{ data }}
-</ng-template>

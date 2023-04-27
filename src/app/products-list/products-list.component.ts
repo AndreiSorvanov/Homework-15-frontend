@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductsService } from 'src/shared/services/products.service';
-import { Money, Currencies } from 'ts-money';
 
 @Component({
   selector: 'app-products-list',
