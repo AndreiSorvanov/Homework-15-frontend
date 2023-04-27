@@ -1,0 +1,15 @@
+<tui-root>
+  <div class="container">
+    <h1 class="tui-text_h1 heading">Интернет-магазин</h1>
+
+    <div *ngIf="page === 'products'" class="products-container">
+      <h2>Список товаров</h2>
+      <app-products-list></app-products-list>
+    </div>
+
+    <div *ngIf="page === 'basket'" class="basket-container">
+      <h2>Корзина</h2>
+      <app-basket></app-basket>
+    </div>
+  </div>
+</tui-root>

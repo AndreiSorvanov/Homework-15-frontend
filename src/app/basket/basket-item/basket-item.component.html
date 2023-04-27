@@ -1,0 +1,32 @@
+<div class="container">
+  <div>
+    <div class="basic-info-container">
+      {{ purchase.product.title }}
+
+      <form class="contrtols-container" [formGroup]="form">
+        <div class="tui-form__row">
+          <tui-input-count
+            formControlName="count"
+            tuiTextfieldSize="m"
+            [min]="1"
+            [step]="1"
+            >Количество</tui-input-count
+          >
+          <tui-error
+            formControlName="count"
+            [error]="[] | tuiFieldError | async"
+          ></tui-error>
+        </div>
+      </form>
+
+      <div>
+        <tui-badge
+          class="support-1 badge"
+          [value]="purchase.product.price | money"
+        ></tui-badge>
+
+        <span class="close" (click)="onDeleteClick($event)">X</span>
+      </div>
+    </div>
+  </div>
+</div>

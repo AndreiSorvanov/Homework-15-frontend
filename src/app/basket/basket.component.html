@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="header">
+    <button
+      tuiButton
+      class="tui-form__button"
+      size="s"
+      type="button"
+      (click)="goToProducts()"
+    >
+      К списку товаров
+    </button>
+  </div>
+
+  <app-basket-item
+    *ngFor="let p of basketService.purchases; let i = index"
+    [purchase]="p"
+    (update)="updatePurchase($event)"
+    (delete)="deletePurchase($event)"
+  ></app-basket-item>
+
+  <div class="footer">
+    <span class="caption">Итого:&nbsp;</span>
+    <strong>{{ basketService.summary | money }}</strong>
+  </div>
+
+  <app-basket-form></app-basket-form>
+</div>
