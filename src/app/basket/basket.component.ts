@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { Purchase } from 'src/shared/interfaces/purchase';
 import { BasketService } from 'src/shared/services/basket.service';
 import { SwitchPageService } from 'src/shared/services/switch-page.service';
+import { Money } from 'ts-money';
 
 @Component({
   selector: 'app-basket',
@@ -8,9 +10,17 @@ import { SwitchPageService } from 'src/shared/services/switch-page.service';
   styleUrls: ['./basket.component.less'],
 })
 export class BasketComponent {
+  get summary(): Money {
+    return this.basketService.summary;
+  }
+
+  get purchases(): Purchase[] {
+    return this.basketService.purchases;
+  }
+
   constructor(
     private readonly switchPageService: SwitchPageService,
-    public readonly basketService: BasketService,
+    private readonly basketService: BasketService,
   ) {}
 
   goToProducts(): void {

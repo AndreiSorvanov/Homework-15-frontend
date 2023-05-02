@@ -12,6 +12,7 @@ import localeRu from '@angular/common/locales/ru';
 import { ProductsListModule } from './products-list/products-list.module';
 import { BasketModule } from './basket/basket.module';
 import { DB_CURRENCY_TOKEN } from 'src/shared/interfaces/products-api-service-interface';
+import { TuiLetModule } from '@taiga-ui/cdk';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -23,7 +24,7 @@ registerLocaleData(localeRu, 'ru');
     TuiRootModule,
     AppRoutingModule,
     HttpClientModule,
-
+    TuiLetModule,
     ProductsListModule,
     BasketModule,
   ],

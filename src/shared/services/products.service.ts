@@ -11,16 +11,16 @@ import { Money } from 'ts-money';
 export class ProductsService {
   private _products: Product[] = [];
 
+  get products(): Product[] {
+    return this._products;
+  }
+
   constructor(
     @Inject(PRODUCTS_API_SERVICE_TOKEN)
     private readonly productsService: ProductsApiServiceInterface,
     @Inject(DB_CURRENCY_TOKEN)
     private readonly currency: string,
   ) {}
-
-  get products(): Product[] {
-    return this._products;
-  }
 
   initialize(): void {
     this.productsService.getAll().subscribe((products: ApiProduct[]) => {

@@ -24,7 +24,7 @@ export class ProductCardComponent {
 
   constructor(
     private readonly switchPageService: SwitchPageService,
-    public readonly basketService: BasketService,
+    private readonly basketService: BasketService,
   ) {}
 
   form = new FormGroup({

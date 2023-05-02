@@ -3,14 +3,25 @@ import { Inject, Injectable } from '@angular/core';
 import { DB_CURRENCY_TOKEN } from '../interfaces/products-api-service-interface';
 import { Money } from 'ts-money';
 import { Purchase } from '../interfaces/purchase';
-import { BasketCurrencyService, BasketСurrency } from './currencies.service';
+import { BasketСurrency } from '../interfaces/basket-currency';
+import { BasketCurrencyService } from './basket-currency.service';
 
 @Injectable({ providedIn: 'root' })
 export class BasketService {
   private _localStorageKey: string = 'basket';
-  private _purchases: Purchase[] = [];
-  private _summary: Money;
   private _basketCurrency: BasketСurrency;
+
+  private _purchases: Purchase[] = [];
+
+  get purchases(): Purchase[] {
+    return this._purchases;
+  }
+
+  private _summary: Money;
+
+  get summary(): Money {
+    return this._summary;
+  }
 
   constructor(
     @Inject(DB_CURRENCY_TOKEN)
@@ -36,14 +47,6 @@ export class BasketService {
       this._localStorageKey,
       JSON.stringify(this._purchases),
     );
-  }
-
-  get purchases(): Purchase[] {
-    return this._purchases;
-  }
-
-  get summary(): Money {
-    return this._summary;
   }
 
   initialize(): void {

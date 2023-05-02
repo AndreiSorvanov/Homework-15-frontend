@@ -11,6 +11,10 @@ export class CountriesService {
   private _localStorageKey: string = 'countries';
   private _countries$: Observable<Country[]>;
 
+  get countries$(): Observable<Country[]> {
+    return this._countries$;
+  }
+
   constructor(
     @Inject(COUNTRIES_API_SERVICE_TOKEN)
     private readonly countriesService: CountriesApiService,
@@ -25,9 +29,5 @@ export class CountriesService {
         localStorage.setItem(this._localStorageKey, JSON.stringify(countries));
       });
     }
-  }
-
-  get countries$(): Observable<Country[]> {
-    return this._countries$;
   }
 }

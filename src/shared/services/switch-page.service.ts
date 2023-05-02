@@ -7,11 +7,11 @@ export type Page = 'basket' | 'products';
 export class SwitchPageService {
   private _currentPage$: BehaviorSubject<Page>;
 
-  constructor() {
-    this._currentPage$ = new BehaviorSubject<Page>('basket');
-  }
-
   get currentPage$(): BehaviorSubject<Page> {
     return this._currentPage$;
+  }
+
+  constructor() {
+    this._currentPage$ = new BehaviorSubject<Page>('basket');
   }
 }

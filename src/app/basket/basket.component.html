@@ -12,13 +12,13 @@
   </div>
 
   <app-basket-item
-    *ngFor="let p of basketService.purchases; let i = index"
+    *ngFor="let p of purchases; let i = index"
     [purchase]="p"
   ></app-basket-item>
 
   <div class="footer">
     <span class="caption">Итого:&nbsp;</span>
-    <strong>{{ basketService.summary | money }}</strong>
+    <strong>{{ summary | money }}</strong>
   </div>
 
   <app-basket-form></app-basket-form>

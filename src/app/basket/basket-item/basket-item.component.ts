@@ -1,26 +1,28 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Purchase } from '../../../shared/interfaces/purchase';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BasketService } from 'src/shared/services/basket.service';
+import { TuiDestroyService } from '@taiga-ui/cdk';
 
 @Component({
   selector: 'app-basket-item',
   templateUrl: './basket-item.component.html',
   styleUrls: ['./basket-item.component.less'],
+  providers: [TuiDestroyService],
 })
-export class BasketItemComponent implements OnInit, OnDestroy {
+export class BasketItemComponent implements OnInit {
   @Input()
   purchase!: Purchase;
-
-  readonly destroy$ = new Subject<void>();
 
   form = new FormGroup({
     count: new FormControl(null, Validators.required),
   });
 
-  constructor(public readonly basketService: BasketService) {}
+  constructor(
+    public readonly basketService: BasketService,
+    private readonly destroy$: TuiDestroyService,
+  ) {}
 
   ngOnInit() {
     this.form.get('count')?.setValue(this.purchase.count);
@@ -31,10 +33,6 @@ export class BasketItemComponent implements OnInit, OnDestroy {
         count: changes.count,
       });
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
   }
 
   onDeleteClick(event: Event) {

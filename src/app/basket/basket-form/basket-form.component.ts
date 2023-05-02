@@ -1,14 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TUI_VALIDATION_ERRORS } from '@taiga-ui/kit';
 import { Observable, Subject, of } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { CountriesService } from 'src/shared/services/countries.service';
 import { Country } from 'src/shared/interfaces/countries-api-service-interface';
-import {
-  BasketCurrencyService,
-  CurrenciesService,
-} from 'src/shared/services/currencies.service';
+import { CurrenciesService } from 'src/shared/services/currencies.service';
+import { TuiDestroyService } from '@taiga-ui/cdk';
+import { BasketCurrencyService } from 'src/shared/services/basket-currency.service';
 
 class CountrySelectItem {
   constructor(readonly country: Country) {}
@@ -30,18 +29,21 @@ class CountrySelectItem {
         email: 'некорректный email',
       },
     },
+    TuiDestroyService,
   ],
 })
-export class BasketFormComponent implements OnInit, OnDestroy {
-  isEdit = false;
-
-  readonly search$ = new Subject<string | null>();
-  readonly destroy$ = new Subject<void>();
-
-  readonly countriesItems$: Observable<CountrySelectItem[]>;
+export class BasketFormComponent implements OnInit {
+  readonly countriesItems$ = this.countriesService.countries$.pipe(
+    map((countries: Country[]) =>
+      countries.map((country: Country) => new CountrySelectItem(country)),
+    ),
+  );
 
   form = new FormGroup({
-    countryItem: new FormControl('Russia', [Validators.required]),
+    countryItem: new FormControl(
+      new CountrySelectItem({ name: 'Russia', currency: 'RUB' }),
+      [Validators.required],
+    ),
     address: new FormControl(null, [Validators.required]),
     name: new FormControl(null, [Validators.required]),
     email: new FormControl(null, [Validators.required, Validators.email]),
@@ -51,34 +53,28 @@ export class BasketFormComponent implements OnInit, OnDestroy {
     public readonly countriesService: CountriesService,
     private readonly basketCurrencyService: BasketCurrencyService,
     private readonly currenciesService: CurrenciesService,
-  ) {
-    this.countriesItems$ = countriesService.countries$.pipe(
-      map((countries: Country[]) =>
-        countries.map((country: Country) => new CountrySelectItem(country)),
-      ),
-    );
-  }
+    private readonly destroy$: TuiDestroyService,
+  ) {}
 
   ngOnInit() {
-    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(changes => {
-      this.currenciesService
-        .rate(changes.countryItem.country.currency)
-        .subscribe((rate: number) => {
-          this.basketCurrencyService.basketCurrency$.next({
-            code: changes.countryItem.country.currency,
-            exchangeRate: rate,
-          });
-        });
-    });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
+    this.form.valueChanges
+      .pipe(
+        switchMap(changes => {
+          return this.currenciesService
+            .rate$(changes.countryItem.country.currency)
+            .pipe(
+              map((rate: number) => ({
+                code: changes.countryItem.country.currency,
+                exchangeRate: rate,
+              })),
+            );
+        }),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(exchangeInfo =>
+        this.basketCurrencyService.basketCurrency$.next(exchangeInfo),
+      );
   }
 
   submit() {}
-
-  onSearchChange(search: string | null) {
-    this.search$.next(search);
-  }
 }

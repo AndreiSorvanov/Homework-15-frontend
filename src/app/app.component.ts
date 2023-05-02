@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BasketService } from 'src/shared/services/basket.service';
 import {
   Page,
@@ -10,23 +10,13 @@ import {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  public page: string = 'products';
+export class AppComponent {
+  readonly page$ = this.switchPageService.currentPage$;
 
   constructor(
     private readonly switchPageService: SwitchPageService,
     public readonly basketService: BasketService,
-  ) {}
-
-  ngOnInit(): void {
-    this.switchPageService.currentPage$.subscribe((curPage: Page) => {
-      this.page = curPage;
-    });
-
+  ) {
     this.basketService.initialize();
-  }
-
-  ngOnDestroy(): void {
-    this.switchPageService.currentPage$.unsubscribe();
   }
 }
