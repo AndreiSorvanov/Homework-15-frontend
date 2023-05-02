@@ -22,14 +22,14 @@ export class ProductCardComponent {
   @Input()
   product!: Product;
 
+  form = new FormGroup({
+    count: new FormControl(1, Validators.required),
+  });
+
   constructor(
     private readonly switchPageService: SwitchPageService,
     private readonly basketService: BasketService,
   ) {}
-
-  form = new FormGroup({
-    count: new FormControl(1, Validators.required),
-  });
 
   submit() {
     const count = this.form.get('count')?.value;

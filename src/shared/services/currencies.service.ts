@@ -19,6 +19,6 @@ export class CurrenciesService {
       return of(1);
     }
 
-    return this.currenciesService.get(this.currency, to);
+    return this.currenciesService.getRate(this.currency, to);
   }
 }

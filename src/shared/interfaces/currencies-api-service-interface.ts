@@ -6,5 +6,5 @@ export const CURRENCIES_API_SERVICE_TOKEN = new InjectionToken(
 );
 
 export interface CurrenciesApiServiceInterface {
-  get(from: string, to: string): Observable<number>;
+  getRate(from: string, to: string): Observable<number>;
 }

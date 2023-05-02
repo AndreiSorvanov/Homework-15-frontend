@@ -18,7 +18,7 @@ export class CurrenciesApiService implements CurrenciesApiServiceInterface {
     private readonly apiKey: string,
   ) {}
 
-  get(from: string, to: string): Observable<number> {
+  getRate(from: string, to: string): Observable<number> {
     return this.httpClient
       .get(`${host}?to=${to}&from=${from}&amount=1`, {
         headers: { apikey: this.apiKey },

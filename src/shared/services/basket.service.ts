@@ -17,26 +17,21 @@ export class BasketService {
     return this._purchases;
   }
 
-  private _summary: Money;
-
-  get summary(): Money {
-    return this._summary;
-  }
+  summary = new Money(0, this.currency);
 
   constructor(
     @Inject(DB_CURRENCY_TOKEN)
     private readonly currency: string,
     private readonly basketCurrencyService: BasketCurrencyService,
   ) {
-    this._summary = new Money(0, currency);
     this._basketCurrency = {
       code: currency,
       exchangeRate: 1,
     };
 
     this.basketCurrencyService.basketCurrency$.subscribe(
-      (backetCurrency: BasketСurrency) => {
-        this._basketCurrency = backetCurrency;
+      (basketCurrency: BasketСurrency) => {
+        this._basketCurrency = basketCurrency;
         this.updateSummary();
       },
     );
@@ -99,12 +94,12 @@ export class BasketService {
     );
 
     try {
-      this._summary = new Money(
+      this.summary = new Money(
         total.multiply(this._basketCurrency.exchangeRate).amount,
         this._basketCurrency.code,
       );
     } catch (error) {
-      console.error(`Валюта ${this._basketCurrency.code} не поддерживатеся.`);
+      console.error(`Валюта ${this._basketCurrency.code} не поддерживатся.`);
     }
   }
 }
