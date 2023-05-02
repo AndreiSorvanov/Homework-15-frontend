@@ -1,0 +1,60 @@
+<form class="form" [formGroup]="form" (submit)="submit()">
+  <div class="tui-form__row">
+    <tui-select tuiTextfieldSize="m" formControlName="countryItem">
+      Страна*
+      <input tuiTextfield />
+      <tui-data-list-wrapper
+        *tuiDataList
+        [items]="countriesItems$ | async"
+      ></tui-data-list-wrapper>
+    </tui-select>
+    <tui-error
+      formControlName="countryItem"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+  </div>
+
+  <div class="tui-form__row">
+    <tui-input tuiTextfieldSize="m" formControlName="address">
+      Адрес доставки*
+    </tui-input>
+    <tui-error
+      formControlName="address"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+  </div>
+
+  <div class="tui-form__row">
+    <tui-input tuiTextfieldSize="m" formControlName="name">Имя*</tui-input>
+    <tui-error
+      formControlName="name"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+  </div>
+
+  <div class="tui-form__row">
+    <tui-input
+      tuiTextfieldType="email"
+      tuiTextfieldSize="m"
+      formControlName="email"
+    >
+      Электронная почта*
+    </tui-input>
+    <tui-error
+      formControlName="email"
+      [error]="[] | tuiFieldError | async"
+    ></tui-error>
+  </div>
+
+  <div class="tui-form__row buttons">
+    <button
+      [disabled]="form.invalid"
+      tuiButton
+      class="tui-form__button"
+      size="s"
+      type="submit"
+    >
+      Заказать
+    </button>
+  </div>
+</form>

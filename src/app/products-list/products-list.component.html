@@ -1,0 +1,5 @@
+<ul class="list-container">
+  <li class="list-item" *ngFor="let product of productsService.products">
+    <app-product-card [product]="product"></app-product-card>
+  </li>
+</ul>
